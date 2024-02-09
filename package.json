@@ -1,0 +1,21 @@
+{
+  "name": "introduccion-express-js",
+  "version": "1.0.0",
+  "description": "introduccion a express js",
+  "main": "src/app.js",
+  "dependencies": {
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  },
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "nestor",
+  "license": "MIT"
+}
