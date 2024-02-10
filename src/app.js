@@ -9,19 +9,19 @@ const { v4: uuidv4, v4 } = require('uuid');
 app.use(express.json());
 
 
-// esta ruta maneja una petición get al recurso raiz.
+// Configuración de la ruta raiz para manejo de peticiones 'GET'
 app.get('/', (req, res) => {
   res.json({
-    mensaje: 'Hola mundo!'
+    mensaje: 'Bienvenidos a esta introducción de Node JS'
   });
 });
 
-// esta ruta maneja peticiones get al recurso productos.
+// Configuración de la ruta /productos para obtener el listado de productos almacenados
 app.get('/productos', (req, res) => {
   res.json(productos);
 });
 
-// Logica de manejo de rutas.
+// Configuración de ruta /productos para creación de nuevos productos con el método 'POST'
 app.post('/productos', validarProducto, (req, res) => {
   const { nombre, precio } = req.body;
   const producto = {
@@ -38,7 +38,8 @@ app.post('/productos', validarProducto, (req, res) => {
   });
 });
 
-
+// Configuración de ruta /productos/id para eliminación de productos con el método 'POST'
+// a través de un id
 app.post('/productos/:id', (req, res) => {
   const id = req.params.id;
   const producto = productos.find(producto => producto.id === id);
@@ -56,8 +57,8 @@ app.post('/productos/:id', (req, res) => {
 });
 
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-  console.log(`Nuestra app esta escuchando en el puerto: ${port}`);
+  console.log(`Nuestra app esta escuchando en el puerto: http://localhost:${port}`);
 });
