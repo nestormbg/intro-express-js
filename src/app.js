@@ -2,13 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const productosRoutes = require('./routes/productosRoutes');
-const registroRoutes = require('./routes/registroRoutes');
+const usuarioRoutes = require('./routes/usuarioRoutes');
 
 // REQUEST -> MIDDLEWARE -> RESPONSE.
 app.use(express.json());
 
 // esta ruta maneja peticiones al registro de usuarios.
-app.use('/usuario', registroRoutes);
+app.use('/usuario', usuarioRoutes);
 
 // esta ruta maneja peticiones al recurso productos.
 app.use('/productos', productosRoutes);
