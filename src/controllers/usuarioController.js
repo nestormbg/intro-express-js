@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const { v4: uuidv4, v4 } = require('uuid');
-const { usuarios } = require('../data/usuarios');
 const jwt = require('jsonwebtoken');
+const Usuario = require('../models/Usuario');
 
 exports.registrarUsuario = async (req, res) => {
   const { name, password } = req.body;
@@ -11,7 +11,10 @@ exports.registrarUsuario = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     const usuario = { name, password: hashedPassword, id: v4() };
 
-    usuarios.push(usuario);
+    const resultado = await Usuario.create({
+      name: usuario.name,
+      password: usuario.password,
+    });
 
     res.status(201).json(usuario);
   } catch (error) {
@@ -23,10 +26,10 @@ exports.registrarUsuario = async (req, res) => {
 
 exports.loginUsuario = async (req, res) => {
   const { name, password } = req.body;
-  const usuario = usuarios.find((user) => user.name === req.body.name);
+  const usuario = await Usuario.findOne({ name: name });
 
   if (!usuario) return res.status(400).send('No se encontro el usuario');
-  console.log(process.env.SECRET);
+
   try {
     const isValidPassword = await bcrypt.compare(password, usuario.password);
 

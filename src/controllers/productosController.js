@@ -1,20 +1,25 @@
 const { v4: uuidv4, v4 } = require('uuid');
-let { productos } = require('../data/productos');
+const Producto = require('../models/Producto');
 
-exports.crearProducto = (req, res) => {
+exports.crearProducto = async (req, res) => {
   const { nombre, precio } = req.body;
-  const producto = {
-    id: v4(),
-    nombre,
-    precio,
-  };
 
-  productos.push(producto);
+  try {
+    const resultado = await Producto.create({
+      name: nombre,
+      price: precio,
+    });
 
-  res.json({
-    mensaje: 'guardado con exito',
-    producto: producto,
-  });
+    return res.status(201).json({
+      mensaje: 'guardado con exito',
+      producto: {
+        nombre,
+        precio,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ mensaje: 'Internal server error' });
+  }
 };
 
 exports.eliminarProducto = (req, res) => {
