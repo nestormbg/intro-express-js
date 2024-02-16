@@ -17,7 +17,7 @@ app.use('/productos', productosRoutes);
 
 app.get('/', (req, res) => {
   res.json({
-    mensaje: 'Hola mundo!',
+    mensaje: 'CRUD del curso de introducción a Express.js',
   });
 });
 
