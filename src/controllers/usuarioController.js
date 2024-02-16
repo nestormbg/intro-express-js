@@ -43,7 +43,7 @@ exports.loginUsuario = async (req, res) => {
       name: usuario.name,
     };
 
-    jwt.sign(payload, process.env.SECRET, (err, token) => {
+    jwt.sign(payload, process.env.SECRET, { expiresIn: '5m' }, (err, token) => {
       if (err)
         return res
           .status(500)
