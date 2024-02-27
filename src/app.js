@@ -1,21 +1,21 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const productosRoutes = require('./routes/productosRoutes');
-const usuarioRoutes = require('./routes/usuarioRoutes');
+const productsRoutes = require('./routes/productsRoutes');
+const userRoutes = require('./routes/userRoutes');
 const connectDB = require('./configs/dbConnection');
 const mongoose = require('mongoose');
 
 // REQUEST -> MIDDLEWARE -> RESPONSE.
 app.use(express.json());
 connectDB();
-// esta ruta maneja peticiones al registro de usuarios.
-app.use('/usuario', usuarioRoutes);
+// this route handles requests made to the user route
+app.use('/api/user', userRoutes);
 
-// esta ruta maneja peticiones al recurso productos.
-app.use('/productos', productosRoutes);
+// this route handles requests made to the products route
+app.use('/api/products', productsRoutes);
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.json({
     mensaje: 'CRUD del curso de introducción a Express.js',
   });
@@ -24,8 +24,8 @@ app.get('/', (req, res) => {
 const port = process.env.PORT || 3000;
 
 mongoose.connection.once('open', () => {
-  console.log('Conexion a MongoDB');
+  console.log('MongoDB connection started');
   app.listen(port, () => {
-    console.log(`Nuestra app esta escuchando en el puerto: ${port}`);
+    console.log(`Listening in port: ${port}`);
   });
 });
