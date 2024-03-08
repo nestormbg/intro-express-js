@@ -1,5 +1,5 @@
-const { v4: uuidv4, v4 } = require("uuid");
-const Product = require("../models/Product");
+const { v4: uuidv4, v4 } = require('uuid');
+const Product = require('../models/Product');
 
 exports.createProduct = async (req, res) => {
   const { name, price } = req.body;
@@ -11,14 +11,14 @@ exports.createProduct = async (req, res) => {
     });
 
     return res.status(201).json({
-      message: "product saved succesfully",
+      message: 'product saved succesfully',
       product: {
         name,
         price,
       },
     });
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -27,19 +27,18 @@ exports.deleteProduct = (req, res) => {
   const product = products.find((product) => product.id === id);
 
   if (!product) {
-    res.json({
+    return res.json({
       message: `Product with id: ${id} not found`,
     });
   }
   products = products.filter((product) => product.id !== id);
-  res.json({
-    message: "Product deleted successfully",
+  return res.json({
+    message: 'Product deleted successfully',
   });
 };
 
 exports.getProducts = (req, res) => {
-  const { limit } = req.query;
-  let newLimit = !limit ? 3 : limit;
+  return res.json(res.results);
 };
 
 exports.updateProduct = (req, res) => {
@@ -48,7 +47,7 @@ exports.updateProduct = (req, res) => {
 
   if (!price || isNaN(price) || price < 0) {
     return res.status(400).json({
-      message: ''
+      message: '',
     });
   }
 
@@ -56,7 +55,8 @@ exports.updateProduct = (req, res) => {
 
   if (filteredProducts.length === 0) {
     return res.status(404).json({
-      message: 'There is no resources', });
+      message: 'There is no resources',
+    });
   }
 
   if (!updatedProducto) {
@@ -65,20 +65,19 @@ exports.updateProduct = (req, res) => {
     });
   }
 
-
   const updated = productos.map((elemento) =>
     elemento.id === updatedProducto.id
       ? {
           ...updatedProducto,
-          precio, }
-      : elemento,
+          precio,
+        }
+      : elemento
   );
-
 
   productos = updated;
 
   return res.status(200).json({
-    message: "Se pudo hacer correctamente",
+    message: 'Se pudo hacer correctamente',
     id: updatedProducto.id,
   });
 };
@@ -92,7 +91,7 @@ exports.deleteProduct = (req, res) => {
 
   if (filteredProducts.length === 0) {
     return res.status(404).json({
-      message: "Este usuario no existe",
+      message: 'Este usuario no existe',
     });
   }
 
@@ -100,18 +99,18 @@ exports.deleteProduct = (req, res) => {
 
   if (!deletedProduct) {
     return res.status(500).json({
-      message: "Comuniquese",
+      message: 'Comuniquese',
     });
   }
 
   let modifiedProducts = productos.filter(
-    (value) => value.id != deletedProduct.id,
+    (value) => value.id != deletedProduct.id
   );
 
   productos = modifiedProducts;
 
   return res.status(200).json({
-    message: "Se elimino correctamente",
+    message: 'Se elimino correctamente',
     deleted: deletedProduct.id,
   });
 };

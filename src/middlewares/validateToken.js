@@ -1,12 +1,23 @@
-const validateToken = (req, res, next) => {
-  const token = req.get('Authorization');
+const jwt = require('jsonwebtoken');
 
-  if (!token)
+const validateToken = (req, res, next) => {
+  const token = req.get('Authorization').split(' ')[1];
+
+  if (!token) {
     return res
       .status(401)
-      .json({ statusCode: 401, mensaje: 'Not permission given' });
+      .send({ statusCode: '401', message: 'Forbidden access' });
+  }
 
-  next();
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res
+      .status(401)
+      .send({ statusCode: '401', message: 'Forbidden access' });
+  }
 };
 
 module.exports = {

@@ -15,6 +15,12 @@ app.use('/api/user', userRoutes);
 // this route handles requests made to the products route
 app.use('/api/products', productsRoutes);
 
+app.get('/', (req, res) => {
+  res.json({
+    mensaje: 'hola',
+  });
+});
+
 app.get('/api', (req, res) => {
   res.json({
     mensaje: 'CRUD del curso de introducción a Express.js',

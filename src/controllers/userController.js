@@ -18,9 +18,7 @@ exports.registerUser = async (req, res) => {
 
     res.status(201).json(user);
   } catch (error) {
-    res
-      .status(500)
-      .json({ statusCode: 500, error: 'Internal server error' });
+    res.status(500).json({ statusCode: 500, error: 'Internal server error' });
   }
 };
 
@@ -39,11 +37,13 @@ exports.loginUser = async (req, res) => {
         .json({ statusCode: 400, error: 'Invalid password or username' });
 
     const payload = {
-      id: usuario.id,
-      name: usuario.name,
+      id: user.id,
+      name: user.name,
     };
 
-    jwt.sign(payload, process.env.SECRET, { expiresIn: '5m' }, (err, token) => { if (err) return res
+    jwt.sign(payload, process.env.SECRET, { expiresIn: '5m' }, (err, token) => {
+      if (err)
+        return res
           .status(500)
           .json({ statusCode: 500, mensaje: 'Internal server error' });
       return res

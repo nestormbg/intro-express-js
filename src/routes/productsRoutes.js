@@ -4,8 +4,14 @@ const router = express.Router();
 const productsController = require('../controllers/productsController');
 const { validateProduct } = require('../middlewares/validateProduct');
 const { validateToken } = require('../middlewares/validateToken');
+const { paginatedResults } = require('../middlewares/paginatedResults');
+const Product = require('../models/Product');
 
-router.get('/', validateToken, productsController.getProducts);
+router.get(
+  '/',
+  [validateToken, paginatedResults(Product)],
+  productsController.getProducts
+);
 router.post(
   '/',
   [validateToken, validateProduct],
